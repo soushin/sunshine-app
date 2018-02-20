@@ -1,0 +1,30 @@
+buildscript {
+    ext.kotlin_version = '1.2.21'
+    repositories {
+        google()
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.0.1'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+
+        classpath 'com.android.tools.build:gradle:1.0.0'
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+        //kotterknife snapshots
+        maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+        maven { url "https://jitpack.io" }
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+apply from: rootProject.file('dependencies.gradle')
