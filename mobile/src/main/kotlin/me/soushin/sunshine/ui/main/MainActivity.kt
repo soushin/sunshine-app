@@ -2,38 +2,34 @@ package me.soushin.sunshine.ui.main
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.text.format.DateUtils
-import android.text.format.DateUtils.FORMAT_NO_YEAR
-import android.widget.ArrayAdapter
-import android.widget.ListView
+import android.support.v4.app.Fragment
 import dagger.android.AndroidInjection
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
-import me.soushin.sunshine.data.repository.OpenWeatherMapRepository
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.support.HasSupportFragmentInjector
 import me.soushin.sunshine.R
+import me.soushin.sunshine.ui.forecasts.ForecastsFragment
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
 
-    @Inject lateinit var openWeatherMapRepository: OpenWeatherMapRepository
+    @Inject
+    lateinit var androidInjector: DispatchingAndroidInjector<Fragment>
+
+    override fun supportFragmentInjector() = androidInjector
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        setContentFragment(R.id.mainLayout)
+    }
 
-        openWeatherMapRepository.findForecastByDaily()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { forecasts ->
-                    findViewById<ListView>(R.id.listview).let { view ->
-                        view.adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,
-                                forecasts.list.map {
-                                    "%s - %s %s/%s".format(
-                                    DateUtils.formatDateTime(this, it.dt * 1000L, FORMAT_NO_YEAR),
-                                            it.weather.get(0).main, it.temp.min, it.temp.max)
-                                })
-                    }
-                }
+    private fun setContentFragment(containerViewId: Int) {
+        supportFragmentManager.let { manager ->
+            manager.findFragmentById(containerViewId)?.let { return }
+            ForecastsFragment.newInstance().apply {
+                manager?.beginTransaction()?.add(containerViewId, this)?.commit()
+            }
+        }
     }
 }
