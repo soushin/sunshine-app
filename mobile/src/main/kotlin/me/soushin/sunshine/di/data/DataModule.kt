@@ -5,13 +5,13 @@ import com.squareup.moshi.KotlinJsonAdapterFactory
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
-import me.soushin.sunshine.data.api.OpenWeatherMapService
+import me.soushin.sunshine.data.api.OpenWeatherMapClient
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import javax.inject.Singleton
 
-@Module(includes = arrayOf(RepositoryModule::class))
+@Module
 internal object DataModule {
 
     @Provides
@@ -36,10 +36,4 @@ internal object DataModule {
             .addConverterFactory(MoshiConverterFactory.create(moshi))
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build()
-
-    @Provides
-    @Singleton
-    @JvmStatic
-    fun provideOpenWeatherMapService(retrofit: Retrofit) = retrofit.create(OpenWeatherMapService::class.java)
-
 }

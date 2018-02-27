@@ -37,6 +37,8 @@ dependencies {
     implementation rootProject.ext.rx
     implementation rootProject.ext.rxAndroid
     implementation rootProject.ext.rxKotlin
+    implementation rootProject.ext.autodisposeKotlin
+    implementation rootProject.ext.autodispose
 
     // data
     implementation rootProject.ext.moshi

@@ -1,7 +1,6 @@
 package me.soushin.sunshine.ui.forecasts
 
 import android.content.Context
-import android.support.v4.app.Fragment
 import android.os.Bundle
 import android.text.format.DateUtils
 import android.text.format.DateUtils.FORMAT_NO_YEAR
@@ -10,24 +9,33 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ListView
+import android.widget.Toast
+import com.uber.autodispose.AutoDispose.autoDisposable
 import dagger.android.support.AndroidSupportInjection
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import me.soushin.sunshine.R
-import me.soushin.sunshine.data.repository.OpenWeatherMapRepository
+import me.soushin.sunshine.ui.base.AutoDisposeFragmentKotlin
+import me.soushin.sunshine.ui.base.error.ErrorStore
+import me.soushin.sunshine.ui.base.forecasts.ForecastsAction
+import me.soushin.sunshine.ui.base.forecasts.ForecastsStore
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
-class ForecastsFragment : Fragment() {
+class ForecastsFragment : AutoDisposeFragmentKotlin() {
 
-    @Inject
-    lateinit var openWeatherMapRepository: OpenWeatherMapRepository
+    @Inject lateinit var forecastsAction: ForecastsAction
+    @Inject lateinit var forecastsStore: ForecastsStore
+    @Inject lateinit var errorStore: ErrorStore
 
     private var listView: ListView by Delegates.notNull()
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         AndroidSupportInjection.inject(this)
         super.onAttach(context)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -36,12 +44,12 @@ class ForecastsFragment : Fragment() {
         return view
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        openWeatherMapRepository.findForecastByDaily()
-                .subscribeOn(Schedulers.io())
+        forecastsStore.forecasts()
                 .observeOn(AndroidSchedulers.mainThread())
+                .`as`(autoDisposable(this))
                 .subscribe { forecasts ->
                     listView.adapter = ArrayAdapter<String>(activity, android.R.layout.simple_list_item_1,
                             forecasts.list.map {
@@ -49,6 +57,19 @@ class ForecastsFragment : Fragment() {
                                         DateUtils.formatDateTime(activity, it.dt * 1000L, FORMAT_NO_YEAR),
                                         it.weather.get(0).main, it.temp.min, it.temp.max)
                             })
+                }
+
+        savedInstanceState ?: forecastsAction.findByDaily()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        errorStore.errors()
+                .observeOn(AndroidSchedulers.mainThread())
+                .`as`(autoDisposable(this))
+                .subscribe { error ->
+                    Toast.makeText(activity, error.message, Toast.LENGTH_LONG).show()
                 }
     }
 
