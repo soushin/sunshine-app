@@ -4,6 +4,7 @@ ext {
       rxKotlin = 'io.reactivex.rxjava2:rxkotlin:2.1.0'
       autodisposeKotlin = 'com.uber.autodispose:autodispose-kotlin:0.6.1'
       autodispose = 'com.uber.autodispose:autodispose-android-kotlin:0.6.1'
+      rxPreferences = 'com.f2prateek.rx.preferences2:rx-preferences:2.0.0-RC3'
 
       moshi = "com.squareup.moshi:moshi:1.5.0"
       moshiKotlin = "com.squareup.moshi:moshi-kotlin:1.5.0"

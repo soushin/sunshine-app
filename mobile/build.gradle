@@ -39,6 +39,7 @@ dependencies {
     implementation rootProject.ext.rxKotlin
     implementation rootProject.ext.autodisposeKotlin
     implementation rootProject.ext.autodispose
+    implementation rootProject.ext.rxPreferences
 
     // data
     implementation rootProject.ext.moshi

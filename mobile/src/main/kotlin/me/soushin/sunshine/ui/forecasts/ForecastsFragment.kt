@@ -9,15 +9,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ListView
+import android.widget.TextView
 import android.widget.Toast
+import com.uber.autodispose.AutoDispose
 import com.uber.autodispose.AutoDispose.autoDisposable
 import dagger.android.support.AndroidSupportInjection
 import io.reactivex.android.schedulers.AndroidSchedulers
 import me.soushin.sunshine.R
 import me.soushin.sunshine.ui.base.AutoDisposeFragmentKotlin
+import me.soushin.sunshine.ui.base.error.ErrorAction
 import me.soushin.sunshine.ui.base.error.ErrorStore
 import me.soushin.sunshine.ui.base.forecasts.ForecastsAction
 import me.soushin.sunshine.ui.base.forecasts.ForecastsStore
+import me.soushin.sunshine.ui.base.settings.SettingsStore
+import timber.log.Timber
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
@@ -25,8 +30,11 @@ class ForecastsFragment : AutoDisposeFragmentKotlin() {
 
     @Inject lateinit var forecastsAction: ForecastsAction
     @Inject lateinit var forecastsStore: ForecastsStore
+    @Inject lateinit var settingsStore: SettingsStore
+    @Inject lateinit var errorAction: ErrorAction
     @Inject lateinit var errorStore: ErrorStore
 
+    private var cityView: TextView by Delegates.notNull()
     private var listView: ListView by Delegates.notNull()
 
     override fun onAttach(context: Context) {
@@ -40,7 +48,8 @@ class ForecastsFragment : AutoDisposeFragmentKotlin() {
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater?.inflate(R.layout.forcasts_fragment, container, false) ?: return null
-        listView = view.findViewById<ListView>(R.id.list_view)
+        cityView = view.findViewById(R.id.city)
+        listView = view.findViewById(R.id.list_view)
         return view
     }
 
@@ -51,6 +60,7 @@ class ForecastsFragment : AutoDisposeFragmentKotlin() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .`as`(autoDisposable(this))
                 .subscribe { forecasts ->
+                    cityView.text = "%s/%s".format(forecasts.city.name, forecasts.city.country)
                     listView.adapter = ArrayAdapter<String>(activity, android.R.layout.simple_list_item_1,
                             forecasts.list.map {
                                 "%s - %s %s/%s".format(
@@ -59,7 +69,16 @@ class ForecastsFragment : AutoDisposeFragmentKotlin() {
                             })
                 }
 
-        savedInstanceState ?: forecastsAction.findByDaily()
+        savedInstanceState ?: settingsStore.zipCode()
+                .observeOn(AndroidSchedulers.mainThread())
+                .`as`(AutoDispose.autoDisposable(this))
+                .subscribe {
+                    if (it.isNotBlank()) {
+                        forecastsAction.findByDaily(it)
+                    } else {
+                        errorAction.onError("You must to set ZipCode.")
+                    }
+                }
     }
 
     override fun onResume() {
@@ -71,6 +90,7 @@ class ForecastsFragment : AutoDisposeFragmentKotlin() {
                 .subscribe { error ->
                     Toast.makeText(activity, error.message, Toast.LENGTH_LONG).show()
                 }
+
     }
 
     companion object {

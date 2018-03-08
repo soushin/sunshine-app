@@ -32,7 +32,7 @@ internal object DataModule {
     @JvmStatic
     fun provideRetrofit(oktHttpClient: OkHttpClient, moshi: Moshi): Retrofit = Retrofit.Builder()
             .client(oktHttpClient)
-            .baseUrl("http://api.openweathermap.org")
+            .baseUrl("https://api.openweathermap.org")
             .addConverterFactory(MoshiConverterFactory.create(moshi))
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build()
