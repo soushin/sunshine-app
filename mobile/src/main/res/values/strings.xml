@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Sandbox Sunshine</string>
+    <string name="hello">Hello World!</string>
+
+    <string name="forecast_city">City/Country</string>
+
+    <string name="action_settings">Setting</string>
+    <string name="settings_label_zip_code">Zip Code</string>
+
+    <string name="button_update">Update</string>
 </resources>

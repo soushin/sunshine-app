@@ -3,9 +3,10 @@ package me.soushin.sunshine.data.api.dto
 import android.os.Parcel
 import android.os.Parcelable
 
-data class Forecasts(var cod: Int, var list: List<Forecast>) : Parcelable {
+data class Forecasts(var city: City, var cod: Int, var list: List<Forecast>) : Parcelable {
 
     constructor(src: Parcel) : this(
+            city = src.readParcelable(City::class.java.classLoader),
             cod = src.readInt(),
             list = src.createTypedArrayList(Forecast.CREATOR)
     )
@@ -15,6 +16,7 @@ data class Forecasts(var cod: Int, var list: List<Forecast>) : Parcelable {
     }
 
     override fun writeToParcel(dest: Parcel?, flags: Int) {
+        dest?.writeParcelable(city, flags)
         dest?.writeInt(cod)
         dest?.writeList(list)
     }
@@ -26,6 +28,35 @@ data class Forecasts(var cod: Int, var list: List<Forecast>) : Parcelable {
             }
 
             override fun newArray(size: Int): Array<out Forecasts?>? {
+                return arrayOfNulls(size)
+            }
+        }
+    }
+}
+
+data class City(var name: String, var country: String) : Parcelable {
+
+    constructor(src: Parcel) : this(
+            name = src.readString(),
+            country = src.readString()
+    )
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    override fun writeToParcel(dest: Parcel?, flags: Int) {
+        dest?.writeString(name)
+        dest?.writeString(country)
+    }
+
+    companion object {
+        @JvmField val CREATOR: Parcelable.Creator<City> = object : Parcelable.Creator<City> {
+            override fun createFromParcel(source: Parcel): City? {
+                return City(source)
+            }
+
+            override fun newArray(size: Int): Array<out City?>? {
                 return arrayOfNulls(size)
             }
         }

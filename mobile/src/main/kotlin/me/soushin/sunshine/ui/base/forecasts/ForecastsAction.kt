@@ -12,8 +12,8 @@ import javax.inject.Singleton
 class ForecastsAction @Inject constructor(private val forecastsDispatcher: ForecastsDispatcher,
                                           private val errorDispatcher: ErrorDispatcher,
                                           private val openWeatherMapRepository: OpenWeatherMapRepository) {
-    fun findByDaily() {
-        openWeatherMapRepository.findForecastByDaily()
+    fun findByDaily(query: String) {
+        openWeatherMapRepository.findForecastByDaily(query)
                 .subscribeOn(Schedulers.io())
                 .subscribe({
                     forecastsDispatcher.forecastsProcessor.onNext(it)

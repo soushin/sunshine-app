@@ -4,11 +4,13 @@ import android.content.Context
 import dagger.Module
 import dagger.Provides
 import me.soushin.sunshine.KotlinApplication
+import me.soushin.sunshine.di.data.ApiModule
+import me.soushin.sunshine.di.data.DataModule
 import me.soushin.sunshine.ui.base.error.ErrorDispatcher
 import me.soushin.sunshine.ui.base.forecasts.ForecastsDispatcher
 import javax.inject.Singleton
 
-@Module
+@Module(includes = arrayOf(ApiModule::class, DataModule::class))
 internal object AppModule {
     @Provides
     @Singleton
