@@ -2,6 +2,7 @@ package me.soushin.sunshine.ui.forecasts
 
 import android.content.Context
 import android.os.Bundle
+import android.support.v4.widget.SwipeRefreshLayout
 import android.text.format.DateUtils
 import android.text.format.DateUtils.FORMAT_NO_YEAR
 import android.view.LayoutInflater
@@ -36,6 +37,7 @@ class ForecastsFragment : AutoDisposeFragmentKotlin() {
 
     private var cityView: TextView by Delegates.notNull()
     private var listView: ListView by Delegates.notNull()
+    private var swipeRefreshLayout: SwipeRefreshLayout by Delegates.notNull()
 
     override fun onAttach(context: Context) {
         AndroidSupportInjection.inject(this)
@@ -50,6 +52,7 @@ class ForecastsFragment : AutoDisposeFragmentKotlin() {
         val view = inflater?.inflate(R.layout.forcasts_fragment, container, false) ?: return null
         cityView = view.findViewById(R.id.city)
         listView = view.findViewById(R.id.list_view)
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout)
         return view
     }
 
@@ -60,6 +63,9 @@ class ForecastsFragment : AutoDisposeFragmentKotlin() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .`as`(autoDisposable(this))
                 .subscribe { forecasts ->
+
+                    swipeRefreshLayout.isRefreshing = false
+
                     cityView.text = "%s/%s".format(forecasts.city.name, forecasts.city.country)
                     listView.adapter = ArrayAdapter<String>(activity, android.R.layout.simple_list_item_1,
                             forecasts.list.map {
@@ -69,7 +75,14 @@ class ForecastsFragment : AutoDisposeFragmentKotlin() {
                             })
                 }
 
-        savedInstanceState ?: settingsStore.zipCode()
+        savedInstanceState ?: request()
+
+        swipeRefreshLayout.setOnRefreshListener { request() }
+    }
+
+    private fun request() {
+        settingsStore.zipCode()
+                .distinctUntilChanged()
                 .observeOn(AndroidSchedulers.mainThread())
                 .`as`(AutoDispose.autoDisposable(this))
                 .subscribe {
@@ -88,6 +101,7 @@ class ForecastsFragment : AutoDisposeFragmentKotlin() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .`as`(autoDisposable(this))
                 .subscribe { error ->
+                    swipeRefreshLayout.isRefreshing = false
                     Toast.makeText(activity, error.message, Toast.LENGTH_LONG).show()
                 }
 
