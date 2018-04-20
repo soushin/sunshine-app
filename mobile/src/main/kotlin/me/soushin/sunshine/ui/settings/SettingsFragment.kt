@@ -31,8 +31,8 @@ class SettingsFragment : AutoDisposeFragmentKotlin() {
         super.onAttach(context)
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater?.inflate(R.layout.setting_fragment, container, false) ?: return null
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val view = inflater.inflate(R.layout.setting_fragment, container, false) ?: return null
         editText = view.findViewById<EditText>(R.id.edit_text_zip_code)
         button = view.findViewById<Button>(R.id.button_zip_code)
         button.setOnClickListener {
