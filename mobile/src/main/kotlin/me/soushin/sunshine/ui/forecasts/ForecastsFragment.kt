@@ -2,13 +2,12 @@ package me.soushin.sunshine.ui.forecasts
 
 import android.content.Context
 import android.os.Bundle
-import android.text.format.DateUtils
-import android.text.format.DateUtils.FORMAT_NO_YEAR
+import android.support.v4.widget.SwipeRefreshLayout
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.ListView
 import android.widget.TextView
 import android.widget.Toast
 import com.uber.autodispose.AutoDispose
@@ -22,7 +21,8 @@ import me.soushin.sunshine.ui.base.error.ErrorStore
 import me.soushin.sunshine.ui.base.forecasts.ForecastsAction
 import me.soushin.sunshine.ui.base.forecasts.ForecastsStore
 import me.soushin.sunshine.ui.base.settings.SettingsStore
-import timber.log.Timber
+import me.soushin.sunshine.ui.forecasts.binder.ForecastViewBinder
+import me.soushin.sunshine.ui.util.RecyclerAdapter
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
@@ -35,7 +35,10 @@ class ForecastsFragment : AutoDisposeFragmentKotlin() {
     @Inject lateinit var errorStore: ErrorStore
 
     private var cityView: TextView by Delegates.notNull()
-    private var listView: ListView by Delegates.notNull()
+    private var recycleView: RecyclerView by Delegates.notNull()
+    private var swipeRefreshLayout: SwipeRefreshLayout by Delegates.notNull()
+
+    private val adapter = RecyclerAdapter()
 
     override fun onAttach(context: Context) {
         AndroidSupportInjection.inject(this)
@@ -46,30 +49,41 @@ class ForecastsFragment : AutoDisposeFragmentKotlin() {
         super.onCreate(savedInstanceState)
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater?.inflate(R.layout.forcasts_fragment, container, false) ?: return null
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val view = inflater.inflate(R.layout.forcasts_fragment, container, false) ?: return null
         cityView = view.findViewById(R.id.city)
-        listView = view.findViewById(R.id.list_view)
+        recycleView = view.findViewById(R.id.recyclerView)
+        recycleView.adapter = adapter
+        recycleView.layoutManager = LinearLayoutManager(context)
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout)
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val context = context ?: return
 
         forecastsStore.forecasts()
                 .observeOn(AndroidSchedulers.mainThread())
                 .`as`(autoDisposable(this))
                 .subscribe { forecasts ->
+
+                    swipeRefreshLayout.isRefreshing = false
+
                     cityView.text = "%s/%s".format(forecasts.city.name, forecasts.city.country)
-                    listView.adapter = ArrayAdapter<String>(activity, android.R.layout.simple_list_item_1,
-                            forecasts.list.map {
-                                "%s - %s %s/%s".format(
-                                        DateUtils.formatDateTime(activity, it.dt * 1000L, FORMAT_NO_YEAR),
-                                        it.weather.get(0).main, it.temp.min, it.temp.max)
-                            })
+                    adapter.replaceAll(forecasts.list.map {
+                        ForecastViewBinder(context, it)
+                    })
                 }
 
-        savedInstanceState ?: settingsStore.zipCode()
+        savedInstanceState ?: request()
+
+        swipeRefreshLayout.setOnRefreshListener { request() }
+    }
+
+    private fun request() {
+        settingsStore.zipCode()
+                .distinctUntilChanged()
                 .observeOn(AndroidSchedulers.mainThread())
                 .`as`(AutoDispose.autoDisposable(this))
                 .subscribe {
@@ -88,9 +102,9 @@ class ForecastsFragment : AutoDisposeFragmentKotlin() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .`as`(autoDisposable(this))
                 .subscribe { error ->
+                    swipeRefreshLayout.isRefreshing = false
                     Toast.makeText(activity, error.message, Toast.LENGTH_LONG).show()
                 }
-
     }
 
     companion object {
