@@ -3,4 +3,13 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    
+    <!-- divier -->
+    <color name="divider_gray">#666</color>
+
+    <!-- text -->
+    <color name="text_primary_black">#333</color>
+    <color name="text_gray">#666</color>
+    <color name="text_secondary_gray">#8c8c8c</color>
+    <color name="text_primary_white">#fff</color>
 </resources>

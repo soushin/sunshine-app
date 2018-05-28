@@ -1,91 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:padding="8dp"
-    android:gravity="center_vertical"
+    android:paddingBottom="16dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="16dp"
     >
 
-    <LinearLayout
-        android:id="@+id/forecast_main"
-        android:layout_width="144dp"
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/forecast_ic"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="16dp"
+        app:srcCompat="@drawable/ic_sun"
+        />
+
+    <TextView
+        android:id="@+id/forecast_temperature"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
-        >
-        <TextView
-            android:id="@+id/forecast_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal|start"
-            android:text="4/27"
-            android:textColor="#000"
-            android:textSize="14sp"
-            />
-        <android.support.v7.widget.AppCompatImageView
-            android:id="@+id/forecast_ic"
-            android:layout_width="96dp"
-            android:layout_height="96dp"
-            android:layout_marginTop="4dp"
-            />
-        <TextView
-            android:id="@+id/forecast_weather"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Clear"
-            android:textColor="#000"
-            android:textSize="18sp"
-            />
-    </LinearLayout>
+        android:layout_toEndOf="@id/forecast_ic"
+        android:text="27C / 18C"
+        android:textColor="@color/text_primary_black"
+        android:textSize="@dimen/text_large"
+        />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_vertical|center_horizontal"
-        >
+    <TextView
+        android:id="@+id/forecast_weather"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/forecast_ic"
+        android:layout_below="@id/forecast_temperature"
+        android:text="Clear"
+        android:textColor="@color/text_gray"
+        android:textSize="@dimen/text_medium"
+        />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/forecast_main"
-            android:orientation="horizontal"
-            >
+    <TextView
+        android:id="@+id/forecast_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="16dp"
+        android:text="4/27"
+        android:textColor="#000"
+        android:textSize="@dimen/text_medium"
+        />
 
-            <TextView
-                android:id="@+id/forecast_temp_max"
-                android:layout_width="wrap_content"
-                android:layout_height="48dp"
-                android:gravity="center_vertical"
-                android:text="25C"
-                android:textColor="#000"
-                android:textSize="32sp"
-                />
-
-            <View
-                android:id="@+id/divider"
-                android:layout_width="1dp"
-                android:layout_height="48dp"
-                android:layout_marginLeft="12dp"
-                android:layout_marginRight="12dp"
-                android:background="#333"
-                android:gravity="center_vertical"
-                />
-
-            <TextView
-                android:id="@+id/forecast_temp_min"
-                android:layout_width="wrap_content"
-                android:layout_height="48dp"
-                android:gravity="center_vertical"
-                android:text="25C"
-                android:textColor="#000"
-                android:textSize="32sp"
-                />
-        </LinearLayout>
-
-    </LinearLayout>
-
-</LinearLayout>
+</RelativeLayout>
