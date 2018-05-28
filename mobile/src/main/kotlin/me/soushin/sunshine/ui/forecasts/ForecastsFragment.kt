@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
 import com.uber.autodispose.AutoDispose
 import com.uber.autodispose.AutoDispose.autoDisposable
@@ -21,6 +20,8 @@ import me.soushin.sunshine.ui.base.error.ErrorStore
 import me.soushin.sunshine.ui.base.forecasts.ForecastsAction
 import me.soushin.sunshine.ui.base.forecasts.ForecastsStore
 import me.soushin.sunshine.ui.base.settings.SettingsStore
+import me.soushin.sunshine.ui.forecasts.binder.ForecastCityBinder
+import me.soushin.sunshine.ui.forecasts.binder.ForecastIconAuthorBinder
 import me.soushin.sunshine.ui.forecasts.binder.ForecastViewBinder
 import me.soushin.sunshine.ui.forecasts.binder.ForecastViewType
 import me.soushin.sunshine.ui.util.RecyclerAdapter
@@ -36,7 +37,6 @@ class ForecastsFragment : AutoDisposeFragmentKotlin() {
     @Inject lateinit var errorAction: ErrorAction
     @Inject lateinit var errorStore: ErrorStore
 
-    private var cityView: TextView by Delegates.notNull()
     private var recycleView: RecyclerView by Delegates.notNull()
     private var swipeRefreshLayout: SwipeRefreshLayout by Delegates.notNull()
 
@@ -53,7 +53,6 @@ class ForecastsFragment : AutoDisposeFragmentKotlin() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.forcasts_fragment, container, false) ?: return null
-        cityView = view.findViewById(R.id.city)
         recycleView = view.findViewById(R.id.recyclerView)
         recycleView.adapter = adapter
         recycleView.layoutManager = LinearLayoutManager(context)
@@ -72,12 +71,16 @@ class ForecastsFragment : AutoDisposeFragmentKotlin() {
 
                     swipeRefreshLayout.isRefreshing = false
 
-                    cityView.text = "%s/%s".format(forecasts.city.name, forecasts.city.country)
-
-                    adapter.replaceAll(forecasts.list.map {
+                    val items = forecasts.list.map {
                         listOf(ForecastViewBinder(context, ForecastViewType.FORECAST, it),
-                                IntentDividerBinder(context, ForecastViewType.DIVIDER, R.dimen.intent_divider_margin))
-                    }.flatten())
+                                IntentDividerBinder(context, ForecastViewType.DIVIDER, R.dimen.intent_divider_margin)
+                        )
+                    }.flatten().toMutableList().also {
+                        it.add(0, ForecastCityBinder(context, ForecastViewType.CITY, "%s/%s".format(forecasts.city.name, forecasts.city.country)))
+                        it.add(it.size, ForecastIconAuthorBinder(context, ForecastViewType.ICON_AUTHOR))
+                    }.toList()
+
+                    adapter.replaceAll(items)
                 }
 
         savedInstanceState ?: request()

@@ -11,4 +11,10 @@
 
     <string name="forecast_temperature">%1$s℃ / %2$s℃</string>
 
+    <string name="weather_icon_made_by">
+        Icon made by
+        <![CDATA[<a href="https://www.flaticon.com/authors/zlatko-najdenovski">Zlatko Najdenovski</a>]]> from
+        <![CDATA[<a href="www.flaticon.com ">www.flaticon.com </a>]]>
+    </string>
+
 </resources>
