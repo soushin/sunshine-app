@@ -29,16 +29,15 @@ open class BaseRecyclerAdapter<VH : RecyclerView.ViewHolder> : RecyclerView.Adap
 
     override fun getItemCount(): Int = mObjects.size
 
+    override fun getItemViewType(position: Int): Int = mObjects[position].getViewType()
 
-    fun getItem(position: Int): Binder<VH> =
-            mObjects.withIndex().filter { it.index == position }
-                    .takeIf { it.isNotEmpty() }?.let { it[0].value }
-                    ?: throw IllegalArgumentException("invalid position=${position}")
+    fun getItem(position: Int): Binder<VH> = mObjects[position]
 
-    private fun getItemByViewType(viewType: Int): Binder<VH> =
-            mObjects.filter { it.getViewType() == viewType }
-                    .takeIf { it.isNotEmpty() }?.let { it[0] }
-                    ?: throw IllegalArgumentException("invalid viewType=${viewType}")
+    private fun getItemByViewType(viewType: Int): Binder<VH> {
+        return mObjects.filter { it.getViewType() == viewType }
+                .takeIf { it.isNotEmpty() }?.let { it[0] }
+                ?: throw IllegalArgumentException("invalid viewType=${viewType}")
+    }
 
     fun insert(index: Int, obj: Binder<VH>) {
         mObjects.add(index, obj)
@@ -59,7 +58,7 @@ interface ViewType {
     fun viewType(): Int
 }
 
-abstract class RecycleBinder(private val context: Context, private val viewType: ViewType) : Binder<RecyclerView.ViewHolder> {
+abstract class RecycleBinder<V : ViewType>(val context: Context, private val viewType: V) : Binder<RecyclerView.ViewHolder> {
 
     @LayoutRes
     abstract fun layoutResId(): Int

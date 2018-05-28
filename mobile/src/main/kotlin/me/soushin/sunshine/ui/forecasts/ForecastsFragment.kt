@@ -22,7 +22,9 @@ import me.soushin.sunshine.ui.base.forecasts.ForecastsAction
 import me.soushin.sunshine.ui.base.forecasts.ForecastsStore
 import me.soushin.sunshine.ui.base.settings.SettingsStore
 import me.soushin.sunshine.ui.forecasts.binder.ForecastViewBinder
+import me.soushin.sunshine.ui.forecasts.binder.ForecastViewType
 import me.soushin.sunshine.ui.util.RecyclerAdapter
+import me.soushin.sunshine.ui.util.binder.IntentDividerBinder
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
@@ -71,9 +73,11 @@ class ForecastsFragment : AutoDisposeFragmentKotlin() {
                     swipeRefreshLayout.isRefreshing = false
 
                     cityView.text = "%s/%s".format(forecasts.city.name, forecasts.city.country)
+
                     adapter.replaceAll(forecasts.list.map {
-                        ForecastViewBinder(context, it)
-                    })
+                        listOf(ForecastViewBinder(context, ForecastViewType.FORECAST, it),
+                                IntentDividerBinder(context, ForecastViewType.DIVIDER, R.dimen.intent_divider_margin))
+                    }.flatten())
                 }
 
         savedInstanceState ?: request()

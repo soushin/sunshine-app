@@ -8,4 +8,7 @@
     <string name="settings_label_zip_code">Zip Code</string>
 
     <string name="button_update">Update</string>
+
+    <string name="forecast_temperature">%1$s℃ / %2$s℃</string>
+
 </resources>
