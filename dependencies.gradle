@@ -1,36 +1,36 @@
 ext {
-      compileSdkVersion = 27
-      buildToolsVersion = "27.0.3"
-      minSdkVersion = 22
-      targetSdkVersion = 26
+    compileSdkVersion = 27
+    buildToolsVersion = "27.0.3"
+    minSdkVersion = 22
+    targetSdkVersion = 26
 
-      // support libraries
-      appCompatVersion = "27.1.0"
-      appCompat = "com.android.support:appcompat-v7:$appCompatVersion"
-      recyclerView = "com.android.support:recyclerview-v7:$appCompatVersion"
-      design = "com.android.support:design:$appCompatVersion"
-      constraintLayout = 'com.android.support.constraint:constraint-layout:1.0.2'
+    // support libraries
+    appCompatVersion = "27.1.0"
+    appCompat = "com.android.support:appcompat-v7:$appCompatVersion"
+    recyclerView = "com.android.support:recyclerview-v7:$appCompatVersion"
+    design = "com.android.support:design:$appCompatVersion"
+    constraintLayout = 'com.android.support.constraint:constraint-layout:1.0.2'
 
-      rx = 'io.reactivex.rxjava2:rxjava:2.1.9'
-      rxAndroid = 'io.reactivex.rxjava2:rxandroid:2.0.2'
-      rxKotlin = 'io.reactivex.rxjava2:rxkotlin:2.1.0'
-      autodisposeKotlin = 'com.uber.autodispose:autodispose-kotlin:0.6.1'
-      autodispose = 'com.uber.autodispose:autodispose-android-kotlin:0.6.1'
-      rxPreferences = 'com.f2prateek.rx.preferences2:rx-preferences:2.0.0-RC3'
+    rx = 'io.reactivex.rxjava2:rxjava:2.1.9'
+    rxAndroid = 'io.reactivex.rxjava2:rxandroid:2.0.2'
+    rxKotlin = 'io.reactivex.rxjava2:rxkotlin:2.1.0'
+    autodisposeKotlin = 'com.uber.autodispose:autodispose-kotlin:0.6.1'
+    autodispose = 'com.uber.autodispose:autodispose-android-kotlin:0.6.1'
+    rxPreferences = 'com.f2prateek.rx.preferences2:rx-preferences:2.0.0-RC3'
 
-      moshi = "com.squareup.moshi:moshi:1.5.0"
-      moshiKotlin = "com.squareup.moshi:moshi-kotlin:1.5.0"
+    moshi = "com.squareup.moshi:moshi:1.5.0"
+    moshiKotlin = "com.squareup.moshi:moshi-kotlin:1.5.0"
 
-      okhttp = 'com.squareup.okhttp3:okhttp:3.9.1'
-      retrofit = 'com.squareup.retrofit2:retrofit:2.2.0'
-      retfofitConverterMoshi = "com.squareup.retrofit2:converter-moshi:2.2.0"
-      retrofitRxAdapter = "com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0"
+    okhttp = 'com.squareup.okhttp3:okhttp:3.9.1'
+    retrofit = 'com.squareup.retrofit2:retrofit:2.2.0'
+    retfofitConverterMoshi = "com.squareup.retrofit2:converter-moshi:2.2.0"
+    retrofitRxAdapter = "com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0"
 
-      dagger = "com.google.dagger:dagger:2.14.1"
-      daggerAndroid = "com.google.dagger:dagger-android:2.14.1"
-      daggerAndroidSupport = "com.google.dagger:dagger-android-support:2.14.1"
-      daggerCompiler = "com.google.dagger:dagger-compiler:2.14.1"
-      daggerAndroidProcessor = "com.google.dagger:dagger-android-processor:2.14.1"
+    dagger = "com.google.dagger:dagger:2.14.1"
+    daggerAndroid = "com.google.dagger:dagger-android:2.14.1"
+    daggerAndroidSupport = "com.google.dagger:dagger-android-support:2.14.1"
+    daggerCompiler = "com.google.dagger:dagger-compiler:2.14.1"
+    daggerAndroidProcessor = "com.google.dagger:dagger-android-processor:2.14.1"
 
-      timber = 'com.jakewharton.timber:timber:4.6.1'
+    timber = 'com.jakewharton.timber:timber:4.6.1'
 }
