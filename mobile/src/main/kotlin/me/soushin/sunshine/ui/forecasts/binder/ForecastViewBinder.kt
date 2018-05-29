@@ -7,6 +7,7 @@ import android.text.format.DateUtils
 import android.text.format.DateUtils.FORMAT_NO_YEAR
 import android.view.View
 import android.widget.TextView
+import kotterknife.bindView
 import me.soushin.sunshine.R
 import me.soushin.sunshine.data.api.dto.Forecast
 import me.soushin.sunshine.ui.util.RecycleBinder
@@ -47,9 +48,9 @@ class ForecastViewBinder<V : ViewType>(context: Context,
     }
 
     open class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val date: TextView = view.findViewById(R.id.forecast_date)
-        val weather: TextView = view.findViewById(R.id.forecast_weather)
-        val temperature: TextView = view.findViewById(R.id.forecast_temperature)
-        val image: AppCompatImageView = view.findViewById(R.id.forecast_ic)
+        val date: TextView by bindView(R.id.forecast_date)
+        val weather: TextView by bindView(R.id.forecast_weather)
+        val temperature: TextView by bindView(R.id.forecast_temperature)
+        val image: AppCompatImageView by bindView(R.id.forecast_ic)
     }
 }

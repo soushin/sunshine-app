@@ -11,6 +11,7 @@ import android.text.style.ClickableSpan
 import android.text.style.URLSpan
 import android.view.View
 import android.widget.TextView
+import kotterknife.bindView
 import me.soushin.sunshine.R
 import me.soushin.sunshine.ui.util.RecycleBinder
 import me.soushin.sunshine.ui.util.ViewType
@@ -31,7 +32,7 @@ class ForecastIconAuthorBinder<V : ViewType>(context: Context, viewType: V) : Re
     }
 
     open class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val iconAuthorLink: TextView = view.findViewById(R.id.iconAuthorLink)
+        val iconAuthorLink: TextView by bindView(R.id.iconAuthorLink)
     }
 }
 

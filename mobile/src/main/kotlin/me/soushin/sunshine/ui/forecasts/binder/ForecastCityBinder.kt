@@ -4,6 +4,7 @@ import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.TextView
+import kotterknife.bindView
 import me.soushin.sunshine.R
 import me.soushin.sunshine.ui.util.RecycleBinder
 import me.soushin.sunshine.ui.util.ViewType
@@ -20,6 +21,6 @@ class ForecastCityBinder<V : ViewType>(context: Context, viewType: V, private va
     }
 
     open class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val city: TextView = view.findViewById(R.id.city)
+        val city: TextView by bindView(R.id.city)
     }
 }
