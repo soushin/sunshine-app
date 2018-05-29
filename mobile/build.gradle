@@ -31,9 +31,12 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+
+    // support libraries
     implementation rootProject.ext.appCompat
     implementation rootProject.ext.recyclerView
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation rootProject.ext.constraintLayout
+    implementation rootProject.ext.design
 
     // rx
     implementation rootProject.ext.rx

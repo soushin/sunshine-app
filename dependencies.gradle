@@ -3,9 +3,13 @@ ext {
       buildToolsVersion = "27.0.3"
       minSdkVersion = 22
       targetSdkVersion = 26
+
+      // support libraries
       appCompatVersion = "27.1.0"
       appCompat = "com.android.support:appcompat-v7:$appCompatVersion"
       recyclerView = "com.android.support:recyclerview-v7:$appCompatVersion"
+      design = "com.android.support:design:$appCompatVersion"
+      constraintLayout = 'com.android.support.constraint:constraint-layout:1.0.2'
 
       rx = 'io.reactivex.rxjava2:rxjava:2.1.9'
       rxAndroid = 'io.reactivex.rxjava2:rxandroid:2.0.2'
