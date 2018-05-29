@@ -23,7 +23,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toEndOf="@id/forecast_ic"
-        android:text="27C / 18C"
         android:textColor="@color/text_primary_black"
         android:textSize="@dimen/text_large"
         />
@@ -34,7 +33,6 @@
         android:layout_height="wrap_content"
         android:layout_toEndOf="@id/forecast_ic"
         android:layout_below="@id/forecast_temperature"
-        android:text="Clear"
         android:textColor="@color/text_gray"
         android:textSize="@dimen/text_medium"
         />
@@ -45,7 +43,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="16dp"
-        android:text="4/27"
         android:textColor="#000"
         android:textSize="@dimen/text_medium"
         />
