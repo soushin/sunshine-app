@@ -2,6 +2,7 @@ package me.soushin.sunshine.data.api.dto
 
 import android.os.Parcel
 import android.os.Parcelable
+import me.soushin.sunshine.R
 
 data class Forecasts(var city: City, var cod: Int, var list: List<Forecast>) : Parcelable {
 
@@ -92,6 +93,19 @@ data class Forecast(var dt: Long, var temp: Temp, var weather: List<Weather>) : 
             }
         }
     }
+
+    fun iconDrawableRes() =
+            when (weather.get(0).main.toLowerCase()) {
+                "clear" -> R.drawable.ic_sun
+                "clouds" -> R.drawable.ic_cloud
+                "fog" -> R.drawable.ic_haze
+                "light_clouds" -> R.drawable.ic_cloudy
+                "light_rain" -> R.drawable.ic_rain
+                "rain" -> R.drawable.ic_rain
+                "snow" -> R.drawable.ic_snowing
+                "storm" -> R.drawable.ic_storm
+                else -> R.drawable.ic_sun // fix me
+            }
 }
 
 data class Temp(var day: Float, var min: Float, var max: Float, var night: Float, var eve: Float,

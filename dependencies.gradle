@@ -1,5 +1,5 @@
 ext {
-    compileSdkVersion = 27
+    compileSdkVersion = 'android-P'
     buildToolsVersion = '27.0.3'
     minSdkVersion = 22
     targetSdkVersion = 26
@@ -9,7 +9,7 @@ ext {
     kotterKnife = "com.jakewharton:kotterknife:0.1.0-SNAPSHOT"
 
     // support libraries
-    appCompatVersion = '27.1.0'
+    appCompatVersion = '28.0.0-alpha1'
     appCompat = "com.android.support:appcompat-v7:$appCompatVersion"
     recyclerView = "com.android.support:recyclerview-v7:$appCompatVersion"
     design = "com.android.support:design:$appCompatVersion"
