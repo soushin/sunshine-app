@@ -20,6 +20,7 @@ import me.soushin.sunshine.ui.base.error.ErrorStore
 import me.soushin.sunshine.ui.base.forecasts.ForecastsAction
 import me.soushin.sunshine.ui.base.forecasts.ForecastsStore
 import me.soushin.sunshine.ui.base.settings.SettingsStore
+import me.soushin.sunshine.ui.forecasts.binder.ForecastChipGroupBinder
 import me.soushin.sunshine.ui.forecasts.binder.ForecastCityBinder
 import me.soushin.sunshine.ui.forecasts.binder.ForecastIconAuthorBinder
 import me.soushin.sunshine.ui.forecasts.binder.ForecastViewBinder
@@ -71,14 +72,9 @@ class ForecastsFragment : AutoDisposeFragmentKotlin() {
 
                     swipeRefreshLayout.isRefreshing = false
 
-                    val items = forecasts.list.map {
-                        listOf(ForecastViewBinder(context, ForecastViewType.FORECAST, it),
-                                IntentDividerBinder(context, ForecastViewType.DIVIDER, R.dimen.intent_divider_margin)
-                        )
-                    }.flatten().toMutableList().also {
-                        it.add(0, ForecastCityBinder(context, ForecastViewType.CITY, "%s/%s".format(forecasts.city.name, forecasts.city.country)))
-                        it.add(it.size, ForecastIconAuthorBinder(context, ForecastViewType.ICON_AUTHOR))
-                    }.toList()
+                    val items = listOf(ForecastCityBinder(context, ForecastViewType.CITY, "%s/%s".format(forecasts.city.name, forecasts.city.country)),
+                            ForecastChipGroupBinder(context, ForecastViewType.FORECAST, forecasts.list),
+                            ForecastIconAuthorBinder(context, ForecastViewType.ICON_AUTHOR))
 
                     adapter.replaceAll(items)
                 }
