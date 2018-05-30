@@ -29,22 +29,8 @@ class ForecastViewBinder<V : ViewType>(context: Context,
         forecast.temp.let {
             viewHolder.temperature.text = context.getString(R.string.forecast_temperature, it.max.toString(), it.min.toString())
         }
-        forecast.weather.get(0).main.let {
-            viewHolder.weather.text = it
-            when (it.toLowerCase()) {
-                "clear" -> R.drawable.ic_sun
-                "clouds" -> R.drawable.ic_cloud
-                "fog" -> R.drawable.ic_haze
-                "light_clouds" -> R.drawable.ic_cloudy
-                "light_rain" -> R.drawable.ic_rain
-                "rain" -> R.drawable.ic_rain
-                "snow" -> R.drawable.ic_snowing
-                "storm" -> R.drawable.ic_storm
-                else -> R.drawable.ic_sun // fix me
-            }.let {
-                viewHolder.image.setBackgroundResource(it)
-            }
-        }
+        viewHolder.weather.text = forecast.weather.get(0).main
+        viewHolder.image.setBackgroundColor(forecast.iconDrawableRes())
     }
 
     open class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
