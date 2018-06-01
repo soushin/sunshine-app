@@ -13,6 +13,7 @@ import dagger.android.AndroidInjection
 import me.soushin.sunshine.R
 import me.soushin.sunshine.ui.AbstractActivity
 import me.soushin.sunshine.ui.home.HomeFragment
+import me.soushin.sunshine.util.extention.setupWithNavController
 
 class MainActivity : AbstractActivity() {
 
@@ -40,7 +41,7 @@ class MainActivity : AbstractActivity() {
         }
 
         findViewById<BottomNavigationView>(R.id.bottomNavigation)?.apply {
-            setupWithNavControllerEx(navController)
+            setupWithNavController(navController)
         }
         setContentFragment(R.id.navHostFragment) { HomeFragment.newInstance() }
     }

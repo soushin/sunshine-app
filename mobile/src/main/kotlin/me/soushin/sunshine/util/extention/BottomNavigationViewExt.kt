@@ -1,10 +1,10 @@
-package me.soushin.sunshine.ui.main
+package me.soushin.sunshine.util.extention
 
 import android.support.design.widget.BottomNavigationView
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 
-fun BottomNavigationView.setupWithNavControllerEx(navController: NavController) {
+fun BottomNavigationView.setupWithNavController(navController: NavController) {
     this.setOnNavigationItemSelectedListener { item ->
         try {
             navController.navigate(item.getItemId(), null, NavOptions.Builder().build())
