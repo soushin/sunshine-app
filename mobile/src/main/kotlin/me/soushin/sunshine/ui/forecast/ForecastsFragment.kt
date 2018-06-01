@@ -1,4 +1,4 @@
-package me.soushin.sunshine.ui.forecasts
+package me.soushin.sunshine.ui.forecast
 
 import android.content.Context
 import android.os.Bundle
@@ -14,18 +14,20 @@ import com.uber.autodispose.AutoDispose.autoDisposable
 import dagger.android.support.AndroidSupportInjection
 import io.reactivex.android.schedulers.AndroidSchedulers
 import me.soushin.sunshine.R
+import me.soushin.sunshine.data.api.dto.Forecast
 import me.soushin.sunshine.ui.base.AutoDisposeFragmentKotlin
 import me.soushin.sunshine.ui.base.error.ErrorAction
 import me.soushin.sunshine.ui.base.error.ErrorStore
 import me.soushin.sunshine.ui.base.forecasts.ForecastsAction
 import me.soushin.sunshine.ui.base.forecasts.ForecastsStore
 import me.soushin.sunshine.ui.base.settings.SettingsStore
-import me.soushin.sunshine.ui.forecasts.binder.ForecastCityBinder
-import me.soushin.sunshine.ui.forecasts.binder.ForecastIconAuthorBinder
-import me.soushin.sunshine.ui.forecasts.binder.ForecastViewBinder
-import me.soushin.sunshine.ui.forecasts.binder.ForecastViewType
+import me.soushin.sunshine.ui.util.binder.ForecastCityBinder
+import me.soushin.sunshine.ui.util.binder.ForecastIconAuthorBinder
+import me.soushin.sunshine.ui.forecast.binder.ForecastViewBinder
+import me.soushin.sunshine.ui.forecast.binder.ForecastViewType
 import me.soushin.sunshine.ui.util.RecyclerAdapter
 import me.soushin.sunshine.ui.util.binder.IntentDividerBinder
+import me.soushin.sunshine.util.extention.replaceFragment
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
@@ -71,8 +73,21 @@ class ForecastsFragment : AutoDisposeFragmentKotlin() {
 
                     swipeRefreshLayout.isRefreshing = false
 
+                    val onClick: (Forecast) -> Unit = { forecast: Forecast ->
+                        fragmentManager?.replaceFragment(R.id.mainLayout) {
+                            Bundle().apply {
+                                putParcelable(ForecastFragment.KEY_FORECAST, forecast)
+
+                            }.let {
+                                ForecastFragment.newInstance().apply {
+                                    arguments = it
+                                }
+                            }
+                        }
+                    }
+
                     val items = forecasts.list.map {
-                        listOf(ForecastViewBinder(context, ForecastViewType.FORECAST, it),
+                        listOf(ForecastViewBinder(context, ForecastViewType.FORECAST, it, onClick),
                                 IntentDividerBinder(context, ForecastViewType.DIVIDER, R.dimen.intent_divider_margin)
                         )
                     }.flatten().toMutableList().also {

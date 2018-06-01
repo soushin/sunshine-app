@@ -6,16 +6,14 @@ import dagger.Component
 import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
 import me.soushin.sunshine.KotlinApplication
-import me.soushin.sunshine.di.data.ApiModule
-import me.soushin.sunshine.di.data.DataModule
-import me.soushin.sunshine.di.ui.UiModule
+import me.soushin.sunshine.di.ui.UiBuilder
 import javax.inject.Singleton
 
 
 @Singleton
-@Component(modules = arrayOf(AndroidSupportInjectionModule::class,
+@Component(modules = [AndroidSupportInjectionModule::class,
         AppModule::class,
-        UiModule::class))
+        UiBuilder::class])
 interface ApplicationComponent : AndroidInjector<KotlinApplication>, ApplicationComponentModules {
 
     @Component.Builder

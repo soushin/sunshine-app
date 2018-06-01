@@ -1,4 +1,4 @@
-package me.soushin.sunshine.ui.forecasts.binder
+package me.soushin.sunshine.ui.util.binder
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView

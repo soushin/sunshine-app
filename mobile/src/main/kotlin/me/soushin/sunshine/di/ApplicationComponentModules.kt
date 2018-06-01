@@ -22,10 +22,6 @@ interface ApplicationComponentModules {
     fun errorAction(): ErrorAction
     fun errorStore(): ErrorStore
 
-    // flux: forecasts
-    fun forecastsAction(): ForecastsAction
-    fun forecastsStore(): ForecastsStore
-
     // flux: settings
     fun settingsAction(): SettingsAction
     fun settingsStore(): SettingsStore

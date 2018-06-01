@@ -1,10 +1,10 @@
-package me.soushin.sunshine.ui.forecasts.binder
+package me.soushin.sunshine.ui.home.binder
 
 import me.soushin.sunshine.ui.util.ViewType
 
-enum class ForecastViewType : ViewType {
+enum class HomeViewType : ViewType {
     CITY,
-    FORECAST,
+    WEATHER,
     ICON_AUTHOR,
     DIVIDER;
 

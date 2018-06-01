@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="16dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="16dp"
+    >
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/forecast_ic"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="16dp"
+        app:srcCompat="@drawable/ic_sun"
+        />
+
+    <TextView
+        android:id="@+id/forecast_temperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/forecast_ic"
+        android:textColor="@color/text_primary_black"
+        android:textSize="@dimen/text_large"
+        />
+
+    <TextView
+        android:id="@+id/forecast_weather"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/forecast_ic"
+        android:layout_below="@id/forecast_temperature"
+        android:textColor="@color/text_gray"
+        android:textSize="@dimen/text_medium"
+        />
+
+    <TextView
+        android:id="@+id/forecast_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="16dp"
+        android:textColor="#000"
+        android:textSize="@dimen/text_medium"
+        />
+
+</RelativeLayout>
