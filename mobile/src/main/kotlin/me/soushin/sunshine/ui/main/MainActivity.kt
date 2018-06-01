@@ -16,7 +16,7 @@ import me.soushin.sunshine.ui.home.HomeFragment
 
 class MainActivity : AbstractActivity() {
 
-    lateinit var navController: NavController
+    val navController: NavController by lazy { findNavController(R.id.navHostFragment) }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
@@ -33,8 +33,6 @@ class MainActivity : AbstractActivity() {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         this.setContentView(R.layout.activity_main)
-
-        navController = findNavController(R.id.navHostFragment)
 
         findViewById<Toolbar>(R.id.toolbar).also {
             setSupportActionBar(it)

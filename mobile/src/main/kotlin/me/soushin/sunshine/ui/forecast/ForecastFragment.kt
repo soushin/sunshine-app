@@ -33,7 +33,11 @@ class ForecastFragment : AutoDisposeFragmentKotlin() {
         fun newInstance() = ForecastFragment()
     }
 
-    private lateinit var forecast: Forecast
+    private val forecast: Forecast by lazy {
+        ForecastFragmentArgs.fromBundle(arguments).let {
+            gson.fromJson(it.forecast, Forecast::class.java)
+        }
+    }
 
     private var recycleView: RecyclerView by Delegates.notNull()
     private val adapter = RecyclerAdapter()
@@ -58,10 +62,6 @@ class ForecastFragment : AutoDisposeFragmentKotlin() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val context = context ?: return
-
-        ForecastFragmentArgs.fromBundle(arguments).let {
-            forecast = gson.fromJson(it.forecast, Forecast::class.java)
-        }
 
         listOf(ForecastViewBinder(context, ForecastViewType.FORECAST, forecast),
                 ForecastIconAuthorBinder(context, ForecastViewType.ICON_AUTHOR)).let {
