@@ -1,9 +1,10 @@
 package me.soushin.sunshine.ui.base.forecasts
 
 import io.reactivex.processors.PublishProcessor
+import me.soushin.sunshine.data.api.dto.CurrentWeather
 import me.soushin.sunshine.data.api.dto.Forecasts
-import me.soushin.sunshine.ui.base.error.ErrorDispatcher
 
 class ForecastsDispatcher {
+    val currentWeatherProcessor = PublishProcessor.create<CurrentWeather>()
     val forecastsProcessor = PublishProcessor.create<Forecasts>()
 }

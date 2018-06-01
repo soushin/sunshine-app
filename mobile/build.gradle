@@ -53,12 +53,13 @@ dependencies {
     implementation rootProject.ext.rxPreferences
 
     // data
-    implementation rootProject.ext.moshi
-    implementation rootProject.ext.moshiKotlin
+    implementation rootProject.ext.gson
     implementation rootProject.ext.okhttp
+    implementation rootProject.ext.okhttpLoggingInterceptor
     implementation rootProject.ext.retrofit
     implementation rootProject.ext.retfofitConverterMoshi
     implementation rootProject.ext.retrofitRxAdapter
+    implementation rootProject.ext.retrofitGson
 
     // dagger
     implementation rootProject.ext.dagger

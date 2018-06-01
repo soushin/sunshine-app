@@ -10,7 +10,7 @@ import me.soushin.sunshine.ui.base.error.ErrorDispatcher
 import me.soushin.sunshine.ui.base.forecasts.ForecastsDispatcher
 import javax.inject.Singleton
 
-@Module(includes = arrayOf(ApiModule::class, DataModule::class))
+@Module(includes = [ApiModule::class, DataModule::class])
 internal object AppModule {
     @Provides
     @Singleton
@@ -21,9 +21,4 @@ internal object AppModule {
     @Singleton
     @JvmStatic
     fun provideErrorDispatcher() = ErrorDispatcher()
-
-    @Provides
-    @Singleton
-    @JvmStatic
-    fun provideForecastsDispatcher() = ForecastsDispatcher()
 }

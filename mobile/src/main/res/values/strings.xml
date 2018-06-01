@@ -4,6 +4,9 @@
 
     <string name="forecast_city">City/Country</string>
 
+    <string name="home">Home</string>
+    <string name="forecasts">Forecasts</string>
+
     <string name="action_settings">Setting</string>
     <string name="settings_label_zip_code">Zip Code</string>
 

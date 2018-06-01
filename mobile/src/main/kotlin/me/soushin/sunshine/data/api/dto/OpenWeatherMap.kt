@@ -164,3 +164,70 @@ data class Weather(var id: Int, var main: String, var description: String, var i
         }
     }
 }
+
+data class CurrentWeather(var weather: List<Weather>, var main: Main, var dt: Long) : Parcelable {
+
+    constructor(src: Parcel) : this(
+            weather = src.createTypedArrayList(Weather.CREATOR),
+            main = src.readParcelable(Main::class.java.classLoader),
+            dt = src.readLong()
+    )
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    override fun writeToParcel(dest: Parcel?, flags: Int) {
+        dest?.writeList(weather)
+        dest?.writeParcelable(main, flags)
+        dest?.writeLong(dt)
+    }
+
+    companion object {
+        @JvmField val CREATOR: Parcelable.Creator<CurrentWeather> = object : Parcelable.Creator<CurrentWeather> {
+            override fun createFromParcel(source: Parcel): CurrentWeather? {
+                return CurrentWeather(source)
+            }
+
+            override fun newArray(size: Int): Array<out CurrentWeather?>? {
+                return arrayOfNulls(size)
+            }
+        }
+    }
+
+}
+
+data class Main(var temp: Float, var pressure: Float, var humidity: Float, var tempMin: Float, var tempMax: Float) : Parcelable {
+
+    constructor(src: Parcel) : this(
+            temp = src.readFloat(),
+            pressure = src.readFloat(),
+            humidity = src.readFloat(),
+            tempMin = src.readFloat(),
+            tempMax = src.readFloat()
+    )
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    override fun writeToParcel(dest: Parcel?, flags: Int) {
+        dest?.writeFloat(temp)
+        dest?.writeFloat(pressure)
+        dest?.writeFloat(humidity)
+        dest?.writeFloat(tempMin)
+        dest?.writeFloat(tempMax)
+    }
+
+    companion object {
+        @JvmField val CREATOR: Parcelable.Creator<Temp> = object : Parcelable.Creator<Temp> {
+            override fun createFromParcel(source: Parcel): Temp? {
+                return Temp(source)
+            }
+
+            override fun newArray(size: Int): Array<out Temp?>? {
+                return arrayOfNulls(size)
+            }
+        }
+    }
+}

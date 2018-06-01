@@ -1,4 +1,4 @@
-package me.soushin.sunshine.ui.forecasts.binder
+package me.soushin.sunshine.ui.forecast.binder
 
 import android.content.Context
 import android.support.v7.widget.AppCompatImageView
@@ -15,7 +15,8 @@ import me.soushin.sunshine.ui.util.ViewType
 
 class ForecastViewBinder<V : ViewType>(context: Context,
                                        viewType: V,
-                                       private val forecast: Forecast) : RecycleBinder<V>(context, viewType) {
+                                       private val forecast: Forecast,
+                                       private val onClick: ((Forecast) -> Unit)? = null) : RecycleBinder<V>(context, viewType) {
 
     override fun layoutResId() = R.layout.forcast_binder
 
@@ -24,6 +25,7 @@ class ForecastViewBinder<V : ViewType>(context: Context,
     override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
         viewHolder as ViewHolder
 
+        viewHolder.temperature.setOnClickListener { onClick?.invoke(forecast) }
         viewHolder.date.text = DateUtils.formatDateTime(context, forecast.dt * 1000L, FORMAT_NO_YEAR)
         viewHolder.weather.text = forecast.weather.get(0).main
         forecast.temp.let {

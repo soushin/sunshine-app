@@ -1,9 +1,6 @@
 package me.soushin.sunshine.ui.base.forecasts
 
-import javax.inject.Inject
-import javax.inject.Singleton
-
-@Singleton
-class ForecastsStore @Inject constructor(private val forecastsDispatcher: ForecastsDispatcher) {
+class ForecastsStore(private val forecastsDispatcher: ForecastsDispatcher) {
+    fun currentWeather() = forecastsDispatcher.currentWeatherProcessor
     fun forecasts() = forecastsDispatcher.forecastsProcessor
 }
