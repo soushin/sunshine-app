@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.gson.Gson
 import dagger.android.support.AndroidSupportInjection
 import me.soushin.sunshine.R
 import me.soushin.sunshine.data.api.dto.Forecast
@@ -26,10 +27,9 @@ class ForecastFragment : AutoDisposeFragmentKotlin() {
 
     @Inject lateinit var errorAction: ErrorAction
     @Inject lateinit var errorStore: ErrorStore
+    @Inject lateinit var gson: Gson
 
     companion object {
-        const val KEY_FORECAST = "key_forecast"
-
         fun newInstance() = ForecastFragment()
     }
 
@@ -59,9 +59,10 @@ class ForecastFragment : AutoDisposeFragmentKotlin() {
         super.onViewCreated(view, savedInstanceState)
         val context = context ?: return
 
-        arguments?.getParcelable<Forecast>(KEY_FORECAST)?.let {
-            forecast = it
+        ForecastFragmentArgs.fromBundle(arguments).let {
+            forecast = gson.fromJson(it.forecast, Forecast::class.java)
         }
+
         listOf(ForecastViewBinder(context, ForecastViewType.FORECAST, forecast),
                 ForecastIconAuthorBinder(context, ForecastViewType.ICON_AUTHOR)).let {
             adapter.replaceAll(it)

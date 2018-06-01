@@ -18,7 +18,7 @@
         android:label="ForecastsFragment"
         >
         <action
-            android:id="@+id/action_forecastsFragment_to_forecastFragment"
+            android:id="@+id/toForecast"
             app:destination="@id/forecastFragment"
             />
     </fragment>
@@ -30,7 +30,7 @@
         >
         <argument
             android:name="forecast"
-            app:type="me.soushin.sunshine.data.api.dto.Forecast"
+            app:type="string"
             />
     </fragment>
 
