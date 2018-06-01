@@ -9,6 +9,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.uber.autodispose.AutoDispose
 import com.uber.autodispose.AutoDispose.autoDisposable
 import dagger.android.support.AndroidSupportInjection
@@ -74,16 +76,11 @@ class ForecastsFragment : AutoDisposeFragmentKotlin() {
                     swipeRefreshLayout.isRefreshing = false
 
                     val onClick: (Forecast) -> Unit = { forecast: Forecast ->
-                        fragmentManager?.replaceFragment(R.id.mainLayout) {
                             Bundle().apply {
                                 putParcelable(ForecastFragment.KEY_FORECAST, forecast)
-
                             }.let {
-                                ForecastFragment.newInstance().apply {
-                                    arguments = it
-                                }
+                                view.findNavController().navigate(R.id.action_forecastsFragment_to_forecastFragment, it)
                             }
-                        }
                     }
 
                     val items = forecasts.list.map {

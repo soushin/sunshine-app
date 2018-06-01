@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:app="http://schemas.android.com/apk/res-auto"
+          xmlns:tools="http://schemas.android.com/tools"
+          android:animateLayoutChanges="false"
+          app:startDestination="@id/homeFragment"
+    >
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="me.soushin.sunshine.ui.home.HomeFragment"
+        android:label="HomeFragment"
+        />
+
+    <fragment
+        android:id="@+id/forecastsFragment"
+        android:name="me.soushin.sunshine.ui.forecast.ForecastsFragment"
+        android:label="ForecastsFragment"
+        >
+        <action
+            android:id="@+id/action_forecastsFragment_to_forecastFragment"
+            app:destination="@id/forecastFragment"
+            />
+    </fragment>
+
+    <fragment
+        android:id="@+id/forecastFragment"
+        android:name="me.soushin.sunshine.ui.forecast.ForecastFragment"
+        android:label="ForecastFragment"
+        >
+        <argument
+            android:name="forecast"
+            app:type="me.soushin.sunshine.data.api.dto.Forecast"
+            />
+    </fragment>
+
+    <activity
+        android:id="@+id/settingsActivity"
+        android:name="me.soushin.sunshine.ui.settings.SettingsActivity"
+        android:label="activity_settings"
+        tools:layout="@layout/activity_settings"
+        />
+</navigation>

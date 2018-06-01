@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'androidx.navigation.safeargs'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -43,6 +44,10 @@ dependencies {
     implementation rootProject.ext.recyclerView
     implementation rootProject.ext.constraintLayout
     implementation rootProject.ext.design
+    implementation rootProject.ext.navigationFragment
+    implementation rootProject.ext.navigationUi
+    implementation rootProject.ext.navigationFragmentKtx
+    implementation rootProject.ext.navigationUiKtx
 
     // rx
     implementation rootProject.ext.rx
