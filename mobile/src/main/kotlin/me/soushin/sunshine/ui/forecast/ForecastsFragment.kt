@@ -9,6 +9,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
+import com.google.gson.Gson
 import com.uber.autodispose.AutoDispose
 import com.uber.autodispose.AutoDispose.autoDisposable
 import dagger.android.support.AndroidSupportInjection
@@ -38,6 +41,7 @@ class ForecastsFragment : AutoDisposeFragmentKotlin() {
     @Inject lateinit var settingsStore: SettingsStore
     @Inject lateinit var errorAction: ErrorAction
     @Inject lateinit var errorStore: ErrorStore
+    @Inject lateinit var gson: Gson
 
     private var recycleView: RecyclerView by Delegates.notNull()
     private var swipeRefreshLayout: SwipeRefreshLayout by Delegates.notNull()
@@ -74,16 +78,7 @@ class ForecastsFragment : AutoDisposeFragmentKotlin() {
                     swipeRefreshLayout.isRefreshing = false
 
                     val onClick: (Forecast) -> Unit = { forecast: Forecast ->
-                        fragmentManager?.replaceFragment(R.id.mainLayout) {
-                            Bundle().apply {
-                                putParcelable(ForecastFragment.KEY_FORECAST, forecast)
-
-                            }.let {
-                                ForecastFragment.newInstance().apply {
-                                    arguments = it
-                                }
-                            }
-                        }
+                        view.findNavController().navigate(ForecastsFragmentDirections.toForecast(gson.toJson(forecast)))
                     }
 
                     val items = forecasts.list.map {

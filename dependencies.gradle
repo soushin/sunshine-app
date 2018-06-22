@@ -14,6 +14,10 @@ ext {
     recyclerView = "com.android.support:recyclerview-v7:$appCompatVersion"
     design = "com.android.support:design:$appCompatVersion"
     constraintLayout = 'com.android.support.constraint:constraint-layout:1.0.2'
+    navigationFragment = "android.arch.navigation:navigation-fragment:$navVersion"
+    navigationUi = "android.arch.navigation:navigation-ui:$navVersion"
+    navigationFragmentKtx = "android.arch.navigation:navigation-fragment-ktx:$navVersion"
+    navigationUiKtx = "android.arch.navigation:navigation-ui-ktx:$navVersion"
 
     // reactive
     rx = 'io.reactivex.rxjava2:rxjava:2.1.9'
